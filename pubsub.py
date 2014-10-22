@@ -13,12 +13,13 @@ class PubProtocol(basic.LineReceiver):
   def connectionMade(self):
     self.factory.clients.add(self)
       
-    self.sendLine("ID=%s" % self.id)
+    self.sendLine("ID %s" % self.id)
 
   def connectionLost(self, reason):
     self.factory.clients.remove(self)
 
   def lineReceived(self, line):
+    print line
     for c in self.factory.clients:
       c.sendLine("<{}> {}".format(self.id, line))
 
