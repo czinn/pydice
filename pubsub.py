@@ -12,11 +12,8 @@ class PubProtocol(basic.LineReceiver):
 
   def connectionMade(self):
     self.factory.clients.add(self)
-    if self.factory.host == None:
-      self.factory.host = self.id
       
     self.sendLine("ID=%s" % self.id)
-    self.sendLine("HOST=%s" % self.factory.host)
 
   def connectionLost(self, reason):
     self.factory.clients.remove(self)
@@ -28,7 +25,6 @@ class PubProtocol(basic.LineReceiver):
 class PubFactory(protocol.Factory):
   def __init__(self):
     self.clients = set()
-    self.host = None
 
   def buildProtocol(self, addr):
     return PubProtocol(self)
