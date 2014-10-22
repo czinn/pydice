@@ -1,0 +1,32 @@
+Protocol
+
+startRound
+  If no round is being played, starts a new round in "waiting for players" mode
+  Otherwise, does nothing.
+
+playRound <hash>
+  If round is in "waiting for players" mode, registers self for current round
+  Otherwise, does nothing.
+
+rollDice
+  If the round is in "waiting for players" mode, sets ready for self
+  Otherwise, does nothing
+  If all players registered for round are ready, puts the round into "playing" mode
+
+makeBid <bid>
+  <bid> is either "challenge" or "<count> <face>", where <count> and <face> are numbers
+  If the round is in "playing" mode and it's that player's turn, makes that bid
+  Otherwise, does nothing
+  If the bid is "challenge", puts the round into "reveal" mode
+
+showDice <index> <salt>
+  Reveals dice to the other players. If the dice are valid (match original hash), mark self as valid
+  If all players have revealed valid dice, puts the round into "inactive" mode (each client announces result)
+
+chat <message>
+  Sends a chat message
+
+killRound
+  If the round is in "playing" mode and it's been >=30 seconds since last move, puts the round in "inactive" mode
+  If the round is in "reveal" mode and it's been >=10 seconds since the last valid reveal, puts the round in "inactive" mode
+  Otherwise, does nothing
