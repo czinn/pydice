@@ -32,6 +32,9 @@ class DiceGameInterface:
     elif event == "showDice":
       print data + " reveals %d %d %d %d %d" % self.g.reveals[data]
 
+    elif event == "showDiceBad":
+      print data + " reveals invalid dice"
+
     elif event == "chat":
       print "<%s> %s" % data
 

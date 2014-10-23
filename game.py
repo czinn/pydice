@@ -77,10 +77,12 @@ class DiceGame:
           if len(self.reveals) == len(self.hashes):
             self.mode == INACTIVE
             self.displayInfo("roundOver", None)
+        else:
+          self.displayInfo("showDiceBad", userId)
 
     elif command[0] == "chat":
       # Show chat message
-      self.displayInfo("chat", (userId, command[1]))
+      self.displayInfo("chat", (userId, sp[1][5:]))
 
     elif command[0] == "killRound":
       # Try to kill the round
