@@ -2,7 +2,7 @@ from interface import DiceGameInterface
 from threading import Thread
 from Queue import Queue
 import socket
-from system import argv
+from sys import argv
 
 class SocketInterface(Thread):
   def __init__(self, interface, s):
