@@ -16,7 +16,9 @@ class DiceGameInterface:
       print "%s voted to roll the dice." % data
 
     elif event == "rollDice":
-      print "The game has begun! Your dice: %d %d %d %d %d" % self.g.getMyDice()
+      print "The game has begun!"
+      if self.g.myDice[0]:
+        print "Your dice: %d %d %d %d %d" % self.g.getMyDice()
 
     elif event == "currentTurn":
       print "Current turn: %s" % self.g.turnOrder[self.g.turn]
@@ -27,7 +29,8 @@ class DiceGameInterface:
     elif event == "challenge":
       print data + " challenges " + self.g.turnOrder[self.g.turn - 1] + "'s bid of %d %ds" % (self.g.currentBid[0], self.g.currentBid[1])
       # Important: respond to challenges by showing dice
-      self.sendLine("showDice %d %s" % self.g.myDice)
+      if self.g.myDice[0]:
+        self.sendLine("showDice %d %s" % self.g.myDice)
 
     elif event == "showDice":
       print data + " reveals %d %d %d %d %d" % self.g.reveals[data]

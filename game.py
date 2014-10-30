@@ -44,13 +44,14 @@ class DiceGame:
 
     elif command[0] == "rollDice":
       if self.mode == WAITING:
-        self.ready.add(userId)
-        self.displayInfo("rollDiceVote", userId)
+        if userId in self.hashes:
+          self.ready.add(userId)
+          self.displayInfo("rollDiceVote", userId)
 
-        if len(self.ready) == len(self.hashes):
-          self.startPlaying()
-          self.displayInfo("rollDice", None)
-          self.displayInfo("currentTurn", None)
+          if len(self.ready) == len(self.hashes):
+            self.startPlaying()
+            self.displayInfo("rollDice", None)
+            self.displayInfo("currentTurn", None)
 
     elif command[0] == "makeBid":
       if self.mode == PLAYING:
@@ -75,7 +76,7 @@ class DiceGame:
           self.displayInfo("showDice", userId)
 
           if len(self.reveals) == len(self.hashes):
-            self.mode == INACTIVE
+            self.mode = INACTIVE
             self.displayInfo("roundOver", None)
         else:
           self.displayInfo("showDiceBad", userId)
@@ -86,6 +87,7 @@ class DiceGame:
 
     elif command[0] == "killRound":
       # Try to kill the round
+      self.mode = INACTIVE
       pass
 
   def startRound(self):
@@ -113,9 +115,11 @@ class DiceGame:
 
     self.turnOrder = map(lambda x: x[0], sorted(self.hashes.items(), key=lambda a: a[1]))
 
+    rState = random.getstate()
     random.seed("+".join(self.hashes.values()))
     self.diceTable = list(itertools.product(range(1, 7), repeat=5))
     random.shuffle(self.diceTable)
+    random.setstate(rState)
 
   def startRevealing(self):
     if self.mode != PLAYING:
